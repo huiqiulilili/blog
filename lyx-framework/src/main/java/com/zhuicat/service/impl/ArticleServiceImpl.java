@@ -7,6 +7,7 @@ import com.zhuicat.constants.SystemConstants;
 import com.zhuicat.domain.ResponseResult;
 import com.zhuicat.domain.entity.Article;
 import com.zhuicat.domain.entity.Category;
+import com.zhuicat.domain.vo.ArticleDetailVo;
 import com.zhuicat.domain.vo.ArticleListVo;
 import com.zhuicat.domain.vo.HotArticleVo;
 import com.zhuicat.domain.vo.PageVo;
@@ -77,5 +78,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         PageVo pageVo = new PageVo(articleListVos, page.getTotal());
         return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult getArticleDetail(Long id) {
+        // 根据id查询文章
+        Article article = this.getById(id);
+        // 转换成vo
+        ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article, ArticleDetailVo.class);
+        // 根据分类id查询分类名称
+        Long categoryId = articleDetailVo.getCategoryId();
+        Category category = categoryService.getById(categoryId);
+        if (category != null) {
+            articleDetailVo.setCategoryName(category.getName());
+        }
+        return ResponseResult.okResult(articleDetailVo);
     }
 }

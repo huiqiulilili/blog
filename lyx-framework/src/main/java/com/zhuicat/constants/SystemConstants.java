@@ -14,6 +14,11 @@ public class SystemConstants {
      */
     public static final int ARTICLE_STATUS_NORMAL = 0;
 
+    /**
+     * 友链审核通过
+     */
+    public static final String Link_STATUS_NORMAL = "0";
+
 
     /**
      * 分类 是正常状态
